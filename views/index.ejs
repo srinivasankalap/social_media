@@ -1,0 +1,41 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload</title>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <h1>Image Upload</h1>
+
+  <form action="/upload" method="post" class="control">
+    <label for="link">Image Link:</label>
+    <input type="text" id="link" name="link" value="<%= image ? image.link : '' %>" required>
+    <br>
+    <label for="description">Image Description:</label>
+    <input type="text" id="description" name="description" value="<%= image ? image.description : '' %>" required>
+    <br>
+    <button type="submit">Upload Image</button>
+  </form>
+  <% if (images && images.length > 0) { %>
+    <% images.forEach(image => { %>
+      <div class="card card-container">
+        <img src="<%= image.link %>" alt="<%= image.description %>">
+        <p>Description: <%= image.description %></p>
+        <form action="/comment/<%= image.id %>" method="post">
+          <label for="comment">Add Comment:</label>
+          <input type="text" id="comment" name="comment" required>
+          <button type="submit">Add Comment</button>
+        </form>
+        <% if (image.comments) { %>
+            <h3>Comments:</h3>
+            <li>Anonymous-<%= image.comments %></li>
+          <% } %>
+      </div>
+    <% }); %>
+  <% } %>
+  
+</body>
+</html>
